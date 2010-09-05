@@ -22,9 +22,15 @@ else
 	exit 1
 fi
 
+if [ ! -d ${input_dir} ]; then
+	echo "Input dir does not exists"
+    exit 1
+fi
+
 input=${input_dir}"/ping_"${phost}".log"
 
 if [ ! -f ${input} ]; then
+	echo "Data file for ${phost} does not exists"
 	exit 1
 fi
 
