@@ -2,8 +2,8 @@
 
 . `dirname $0`/config.cnf
 
-pinghost="www.google.fr"
+for pinghost in ${hosts}; do
+	pingtime=`ping -c 3 ${pinghost} | tail -n 1 | cut -d ' ' -f 4 | sed -s 's/\(.*\)\/\(.*\)\/\(.*\)\/\(.*\)/\2/'`
 
-pingtime=`ping -c 3 ${pinghost} | tail -n 1 | cut -d ' ' -f 4 | sed -s 's/\(.*\)\/\(.*\)\/\(.*\)\/\(.*\)/\2/'`
-
-echo ${now} ${pingtime} >> ${input_dir}/ping_${pinghost}.log
+	echo ${now} ${pingtime} >> ${input_dir}/ping_${pinghost}.log
+done
