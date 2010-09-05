@@ -1,0 +1,9 @@
+#!/bin/sh
+
+. ./config.cnf
+
+pinghost="www.google.fr"
+
+pingtime=`ping -c 3 ${pinghost} | tail -n 1 | cut -d ' ' -f 4 | sed -s 's/\(.*\)\/\(.*\)\/\(.*\)\/\(.*\)/\2/'`
+
+echo ${now} ${pingtime} >> ${inpuy_dir}/ping_${pinghost}.log

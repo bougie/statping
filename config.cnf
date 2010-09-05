@@ -1,0 +1,8 @@
+#!/bin/sh
+
+def_step=86400
+now=`date +%s`
+end=${now}
+
+input_dir="/tmp"
+output_dir="/home/bougie/public_html"
