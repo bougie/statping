@@ -46,4 +46,4 @@ echo "plot \"${input}\" using 1:2 with impulses linecolor rgbcolor \"green\" tit
 
 gnuplot /tmp/tmpgen
 
-#rm /tmp/tmpgen
+rm /tmp/tmpgen
