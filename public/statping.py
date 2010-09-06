@@ -2,12 +2,12 @@
 from os import system
 from cgi import FieldStorage, escape
 
-generator = './rendergraph'
+generator = '../bin/rendergraph'
 img_path = ''
 
 ### "system" functions
 def get_hosts():
-  f = open('hosts.cnf')
+  f = open('../confs/hosts.cnf')
   for line in f:
     yield line[:-1]
   f.close()
