@@ -4,9 +4,9 @@ from cgi import FieldStorage, escape
 from re import sub
 
 admin = True                    # do we auhorize admin stuff or not ?
-generator = './rendergraph'
+generator = '../bin/rendergraph'
 img_path = ''
-conf_path = ''
+conf_path = '../confs/'
 
 ### "system" functions
 def get_hosts():

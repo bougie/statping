@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. `dirname $0`/config.cnf
+. `dirname $0`/../config.cnf
 
 if [ ! -d ${input_dir} ]; then
 	echo "${input_dir} doesn't exists"
