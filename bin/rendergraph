@@ -34,6 +34,8 @@ if [ ! -f ${input} ]; then
 	exit 1
 fi
 
+graph_type="impulses"
+
 echo "set title \"Average response time on ${phost}\"" > /tmp/tmpgen
 echo "set xlabel \"Time\"" >> /tmp/tmpgen 
 echo "set ylabel \"ping (ms)\"" >> /tmp/tmpgen
@@ -48,7 +50,7 @@ echo "set xrange [\"${begin}\":\"${end}\"]" >> /tmp/tmpgen
 echo "set terminal png size 800,340" >> /tmp/tmpgen
 echo "set output \"${output_dir}/${phost}.png\"" >> /tmp/tmpgen
 
-echo "plot \"${input}\" using 1:2 with impulses linecolor rgbcolor \"green\" title ''" >> /tmp/tmpgen
+echo "plot \"${input}\" using 1:2 with ${graph_type} linecolor rgbcolor \"green\" title ''" >> /tmp/tmpgen
 
 gnuplot /tmp/tmpgen
 
