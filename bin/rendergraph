@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. `dirname $0`/../config.cnf
+. `dirname $0`/../confs/config.cnf
 
 if [ $# -gt 0 ]; then
 	phost=$1
