@@ -8,4 +8,5 @@ end=${now}
 input_dir="/tmp"
 output_dir="/tmp/"
 
-hosts="`cat hosts.cnf`"
+cnfdir=`dirname $0`
+hosts="`cat ${cnfdir}/hosts.cnf`"
