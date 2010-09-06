@@ -6,6 +6,6 @@ now=`date +%s`
 end=${now}
 
 input_dir="/tmp"
-output_dir="/home/bougie/public_html"
+output_dir="/tmp/"
 
-hosts="www.google.fr"
+hosts="`cat hosts.cnf`"
