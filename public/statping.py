@@ -5,7 +5,7 @@ from re import sub
 
 admin = True                    # do we auhorize admin stuff or not ?
 generator = '../bin/rendergraph'
-img_path = ''
+img_path = './img/'
 conf_path = '../confs/'
 
 ### "system" functions
