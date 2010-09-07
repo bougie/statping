@@ -14,7 +14,7 @@ if [ $# -gt 0 ]; then
     if [ $# -gt 2 ]; then
 		begin=$3
 	else
-		begin=$((${now}-${step}))
+		begin="$((${now}-${step}))"
 	fi
 
 else
