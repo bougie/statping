@@ -79,3 +79,10 @@ def start(port):
   from wsgiref.simple_server import make_server
   srv = make_server('localhost', port, statping)
   srv.serve_forever()
+
+def start_cgi():
+  from flup.server.fcgi import WSGIServer
+  WSGIServer(statping).run()
+
+if __name__ == "__main__":
+  start_cgi()
