@@ -3,6 +3,7 @@ from os import system
 from cgi import FieldStorage, escape
 from re import sub
 from time import localtime, strftime
+from subprocess import Popen, PIPE
 
 admin = True                    # do we auhorize admin stuff or not ?
 generator = '../bin/rendergraph'
@@ -24,8 +25,14 @@ def save_hosts(content):
   f.close()
 
 def gen_graph(host, step, begin):
-  # TODO: handle errors
-  # TODO: concert begin to a timestamp
+  # TODO: convert begin to a timestamp
+  pipe = Popen([generator, host, step, begin], stdout=PIPE, stderr=PIPE)
+  errors = pipe.communicate()
+  if pipe.returncode == 0:
+    return errors
+  else:
+    raise IOError("Can't generate graph")
+  
   system(reduce(lambda x,y: x + ' ' + y, [generator, host, step, begin]))
 
 ### pages
@@ -61,7 +68,8 @@ def show_host(params):
   html += '<input type="submit" value="generate" />'
   html += '</form>'
   
-  gen_graph(host, step, begin)
+  errors = gen_graph(host, step, begin)
+  html += '<p>Errors: ' + str(errors) + '</p>'
   html += '<img src="' + img_path + host + '.png" alt="' + host + '"/>'
   return html
 

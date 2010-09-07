@@ -56,6 +56,6 @@ echo "set output \"${output_dir}/${phost}.png\"" >> /tmp/tmpgen
 
 echo "plot \"${input}\" using 1:2 with ${graph_type} linecolor rgbcolor \"green\" title ''" >> /tmp/tmpgen
 
-gnuplot /tmp/tmpgen
+$GNUPLOT /tmp/tmpgen
 
 rm /tmp/tmpgen
