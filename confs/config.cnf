@@ -11,4 +11,5 @@ output_dir=`dirname $0`"/../public/img"
 cnfdir=`dirname $0`
 hosts="`cat ${cnfdir}/../confs/hosts.cnf`"
 
-GNUPLOT="`which gnuplot`"
+PATH="/bin:/usr/bin:/usr/local/bin:/usr/pkg/bin"
+GNUPLOT="gnuplot"

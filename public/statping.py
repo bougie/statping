@@ -27,8 +27,8 @@ def save_hosts(content):
 def gen_graph(host, step, begin):
   # TODO: convert begin to a timestamp
   pipe = Popen([generator, host, step, begin], stdout=PIPE, stderr=PIPE)
-  errors = pipe.communicate()
-  return errors
+  output = pipe.communicate()
+  return output[1]
 
 ### pages
 def list_hosts(params):
@@ -64,7 +64,8 @@ def show_host(params):
   html += '</form>'
   
   errors = gen_graph(host, step, begin)
-  html += '<p>Errors: ' + str(errors) + '</p>'
+  if errors != '':
+    html += '<p>Errors: <br/><pre>' + sub('\n', '<br/>', errors) + '</pre></p>'
   html += '<img src="' + img_path + host + '.png" alt="' + host + '"/>'
   return html
 
