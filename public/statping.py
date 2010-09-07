@@ -2,12 +2,13 @@
 from os import system
 from cgi import FieldStorage, escape
 from re import sub
+from time import localtime, strftime
 
 admin = True                    # do we auhorize admin stuff or not ?
 generator = '../bin/rendergraph'
 img_path = './img/'
 conf_path = '../confs/'
-default_begin = ''
+default_begin = strftime("%m/%d/%Y %H:%M", localtime())
 default_step = '86400'
 
 ### "system" functions
@@ -49,11 +50,11 @@ def show_host(params):
   # TODO: get default values
   html += '<form method="post" action="/?host=' + host + '">'
   html += ('<label>Time scale: <select name="step">' +
-           '<option value="">Last hour</option>' +
-           '<option value="">Last day</option>' +
-           '<option value="">Last week</option>' +
-           '<option value="">Last month</option>' +
-           '<option value="">Last year</option>' +
+           '<option value="3600">Last hour</option>' +
+           '<option value="86400">Last day</option>' +
+           '<option value="604800">Last week</option>' +
+           '<option value="18144000">Last month</option>' +
+           '<option value="6622560000">Last year</option>' +
 		   '</select></label><br/>')
   html += ('<label>begin (mm/dd/yyyy hh:ii) : <input type="text" name="begin" value="' + 
            begin + '"/></label><br/>')
