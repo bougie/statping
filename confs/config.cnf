@@ -6,7 +6,7 @@ now=`date +%s`
 end=${now}
 
 input_dir="/tmp"
-output_dir="/tmp/pictures"
+output_dir=`dirname $0`"/../public/img"
 
 cnfdir=`dirname $0`
 hosts="`cat ${cnfdir}/../confs/hosts.cnf`"
