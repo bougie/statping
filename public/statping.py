@@ -7,6 +7,8 @@ admin = True                    # do we auhorize admin stuff or not ?
 generator = '../bin/rendergraph'
 img_path = './img/'
 conf_path = '../confs/'
+default_begin = ''
+default_step = '86400'
 
 ### "system" functions
 def get_hosts():
@@ -20,8 +22,9 @@ def save_hosts(content):
   f.write(content)
   f.close()
 
-def gen_graph(host):
-  system(generator + ' ' + host)
+def gen_graph(host, step, begin):
+  # TODO: handle errors
+  system(reduce(lambda x,y: x + ' ' + y, [generator, host, step, begin]))
 
 ### pages
 def list_hosts(params):
@@ -34,19 +37,24 @@ def list_hosts(params):
 def show_host(params):
   # TODO: change the step etc.
   host = params.getvalue('host')
+  step = params.getvalue('step') or default_step
+  begin = params.getvalue('begin') or default_begin
+  
   html = '<h1>Statping for ' + host + '</h1>'
   
   if not host in get_hosts():
     return '<p>No such host</p>'
   
   # TODO: get default values
-  html += ('<form method="post" action="/?host=' + host + 
-           '" enctype="multipart/form-data">')
-  html += '<label>Step: <input type="text" name="step" value="86401"/></label><br/>'
-  html += '<label>Begin: <input type="text" name="begin" value=""/></label> (the end will be begin-step)<br/>'
+  html += '<form method="post" action="/?host=' + host + '">'
+  html += ('<label>step: <input type="text" name="step" value="' + 
+           step + '"/></label><br/>')
+  html += ('<label>begin: <input type="text" name="begin" value="' + 
+           begin + '"/></label> (the end will be begin-step)<br/>')
+  html += '<input type="submit" value="generate" />'
   html += '</form>'
   
-  gen_graph(host)
+  gen_graph(host, step, begin)
   html += '<img src="' + img_path + host + '.png" alt="' + host + '"/>'
   return html
 
