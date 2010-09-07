@@ -34,6 +34,10 @@ if [ ! -f ${input} ]; then
 	exit 1
 fi
 
+if [ ! -d ${output_dir} ]; then
+	mkdir ${output_dir}
+fi
+
 graph_type="impulses"
 
 echo "set title \"Average response time on ${phost}\"" > /tmp/tmpgen
