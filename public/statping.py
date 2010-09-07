@@ -6,6 +6,7 @@ from time import localtime, strftime
 from subprocess import Popen, PIPE
 
 admin = True                    # do we auhorize admin stuff or not ?
+path = 'statping.py'
 generator = '../bin/rendergraph'
 img_path = './img/'
 conf_path = '../confs/'
@@ -34,7 +35,7 @@ def gen_graph(host, step, begin):
 def list_hosts(params):
   html = '<h1>Hosts</h1><ul>'
   for host in get_hosts():
-    html += '<li><a href="?host=' + host + '">' + host + '</a></li>'
+    html += '<li><a href="' + path + '?host=' + host + '">' + host + '</a></li>'
   html += '</ul>'
   return html
 
@@ -50,7 +51,7 @@ def show_host(params):
     return '<p>No such host</p>'
   
   # TODO: get default values
-  html += '<form method="post" action="/?host=' + host + '">'
+  html += '<form method="post" action="' + path + '?host=' + host + '">'
   html += ('<label>Time scale: <select name="step">' +
            '<option value="3600">Last hour</option>' +
            '<option value="86400">Last day</option>' +
@@ -58,8 +59,8 @@ def show_host(params):
            '<option value="18144000">Last month</option>' +
            '<option value="6622560000">Last year</option>' +
 		   '</select></label><br/>')
-  html += ('<label>begin (mm/dd/yyyy hh:ii) : <input type="text" name="begin" value="' + 
-           begin + '"/></label><br/>')
+  html += ('<label>begin (mm/dd/yyyy hh:ii) : <input type="text" name="begin"'
+           'value="' + begin + '"/></label><br/>')
   html += '<input type="submit" value="generate" />'
   html += '</form>'
   
@@ -75,7 +76,8 @@ def manage_hosts(params):
     save_hosts(params.getvalue('new_hosts'))
     return html + '<p>Hosts saved<br/><a href="">back</a></p>'
   
-  html += '<form method="post" action="/?manage=t" enctype="multipart/form-data">'
+  html += ('<form method="post" action="' + path + 
+           '?manage=t" enctype="multipart/form-data">')
   html += '<textarea name="new_hosts" rows="20" cols="80">\n'
   for host in get_hosts():
     html += host + '\n'
@@ -91,7 +93,7 @@ def statping(environ, start_response):
                             ('charset', 'utf-8')])
   body = ''
   if admin:
-    body += '<a href="/?manage=t">manage</a> - '
+    body += '<a href="' + path + '?manage=t">manage</a> - '
   body += '<a href="/">list</a><br/>'
   if 'host' in params:
     body += show_host(params)
