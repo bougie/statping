@@ -39,6 +39,13 @@ def show_host(params):
   if not host in get_hosts():
     return '<p>No such host</p>'
   
+  # TODO: get default values
+  html += ('<form method="post" action="/?host=' + host + 
+           '" enctype="multipart/form-data">')
+  html += '<label>begin: <input type="text" name="step" value="86401"/></label><br/>'
+  html += '<label>end: <input type="text" name="begin" value=""/></label><br/>'
+  html += '</form>'
+  
   gen_graph(host)
   html += '<img src="' + img_path + host + '.png" alt="' + host + '"/>'
   return html
@@ -55,6 +62,7 @@ def manage_hosts(params):
     html += host + '\n'
   html += '</textarea><br/>'
   html += '<input type="submit" value="update" />'
+  html += '</form>'
   return html
 
 ### app
@@ -79,3 +87,10 @@ def start(port):
   from wsgiref.simple_server import make_server
   srv = make_server('localhost', port, statping)
   srv.serve_forever()
+
+def start_cgi():
+  from flup.server.fcgi import WSGIServer
+  WSGIServer(statping).run()
+
+if __name__ == "__main__":
+  start_cgi()
