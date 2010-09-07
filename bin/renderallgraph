@@ -1,0 +1,7 @@
+#!/bin/sh
+
+. `dirname $0`/../confs/config.cnf
+
+for phost in ${hosts}; do
+    ./`dirname $0`/rendergraph ${phost}
+done
