@@ -28,12 +28,7 @@ def gen_graph(host, step, begin):
   # TODO: convert begin to a timestamp
   pipe = Popen([generator, host, step, begin], stdout=PIPE, stderr=PIPE)
   errors = pipe.communicate()
-  if pipe.returncode == 0:
-    return errors
-  else:
-    raise IOError("Can't generate graph")
-  
-  system(reduce(lambda x,y: x + ' ' + y, [generator, host, step, begin]))
+  return errors
 
 ### pages
 def list_hosts(params):
