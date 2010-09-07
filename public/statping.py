@@ -42,8 +42,8 @@ def show_host(params):
   # TODO: get default values
   html += ('<form method="post" action="/?host=' + host + 
            '" enctype="multipart/form-data">')
-  html += '<label>begin: <input type="text" name="step" value="86401"/></label><br/>'
-  html += '<label>end: <input type="text" name="begin" value=""/></label><br/>'
+  html += '<label>Step: <input type="text" name="step" value="86401"/></label><br/>'
+  html += '<label>Begin: <input type="text" name="begin" value=""/></label> (the end will be begin-step)<br/>'
   html += '</form>'
   
   gen_graph(host)
