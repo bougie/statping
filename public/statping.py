@@ -24,6 +24,7 @@ def save_hosts(content):
 
 def gen_graph(host, step, begin):
   # TODO: handle errors
+  # TODO: concert begin to a timestamp
   system(reduce(lambda x,y: x + ' ' + y, [generator, host, step, begin]))
 
 ### pages
@@ -47,10 +48,15 @@ def show_host(params):
   
   # TODO: get default values
   html += '<form method="post" action="/?host=' + host + '">'
-  html += ('<label>step: <input type="text" name="step" value="' + 
-           step + '"/></label><br/>')
-  html += ('<label>begin: <input type="text" name="begin" value="' + 
-           begin + '"/></label> (the end will be begin-step)<br/>')
+  html += ('<label>Time scale: <select name="step">' +
+           '<option value="">Last hour</option>' +
+           '<option value="">Last day</option>' +
+           '<option value="">Last week</option>' +
+           '<option value="">Last month</option>' +
+           '<option value="">Last year</option>' +
+		   '</select></label><br/>')
+  html += ('<label>begin (mm/dd/yyyy hh:ii) : <input type="text" name="begin" value="' + 
+           begin + '"/></label><br/>')
   html += '<input type="submit" value="generate" />'
   html += '</form>'
   
