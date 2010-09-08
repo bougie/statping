@@ -1,35 +1,17 @@
 #!/usr/bin/env python
+import sys
 from os import system
 from cgi import FieldStorage, escape
 from re import sub
 from time import localtime, mktime, strftime, strptime
 from subprocess import Popen, PIPE
 
-admin = True                    # do we auhorize admin stuff or not ?
-path = 'statping.py'
-generator = '../bin/rendergraph'
-img_path = './img/'
-conf_path = '../confs/'
-default_begin = strftime("%m/%d/%Y %H:%M", localtime())
-default_step = '86400'
-
 ### "system" functions
 def get_hosts():
-  f = open(conf_path + 'hosts.cnf')
-  for line in f:
-    yield sub(r'([^\r\n]+)\r?\n', r'\1', line)
-  f.close()
-
-def save_hosts(content):
-  f = open(conf_path + 'hosts.cnf', 'w')
-  f.write(content)
-  f.close()
+  # TODO
 
 def gen_graph(host, step, begin):
-  begin = str(int(mktime(strptime(begin, "%m/%d/%Y %H:%M"))))
-  pipe = Popen([generator, host, step, begin], stdout=PIPE, stderr=PIPE)
-  output = pipe.communicate()
-  return (output[0] + output[1])
+  # TODO
 
 ### pages
 def list_hosts(params):
@@ -68,22 +50,6 @@ def show_host(params):
   html += '<img src="' + img_path + host + '.png" alt="' + host + '"/>'
   return html
 
-def manage_hosts(params):
-  html = '<h1>Manage hosts</h1>'
-  if 'new_hosts' in params:
-    save_hosts(params.getvalue('new_hosts'))
-    return html + '<p>Hosts saved<br/><a href="">back</a></p>'
-  
-  html += ('<form method="post" action="' + path + 
-           '?manage=t" enctype="multipart/form-data">')
-  html += '<textarea name="new_hosts" rows="20" cols="80">\n'
-  for host in get_hosts():
-    html += host + '\n'
-  html += '</textarea><br/>'
-  html += '<input type="submit" value="update" />'
-  html += '</form>'
-  return html
-
 ### app
 def statping(environ, start_response):
   params = FieldStorage(fp=environ['wsgi.input'], environ=environ)
@@ -102,7 +68,7 @@ def statping(environ, start_response):
   return body
 
 ### server
-def start(port):
+def start_server(port):
   from wsgiref.simple_server import make_server
   srv = make_server('localhost', port, statping)
   srv.serve_forever()
@@ -112,4 +78,7 @@ def start_cgi():
   WSGIServer(statping).run()
 
 if __name__ == "__main__":
-  start_cgi()
+  if ilen(sys.argv) == 0:
+    start_cgi()
+  elif sys.argv[1] == '-d':
+    start_server(sys.argv[2]
