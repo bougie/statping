@@ -3,15 +3,7 @@ import sys
 from os import system
 from cgi import FieldStorage, escape
 from re import sub
-from time import localtime, mktime, strftime, strptime
 from subprocess import Popen, PIPE
-
-### "system" functions
-def get_hosts():
-  # TODO
-
-def gen_graph(host, step, begin):
-  # TODO
 
 ### pages
 def list_hosts(params):
