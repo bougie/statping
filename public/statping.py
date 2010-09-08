@@ -78,7 +78,7 @@ def start_cgi():
   WSGIServer(statping).run()
 
 if __name__ == "__main__":
-  if ilen(sys.argv) == 0:
+  if len(sys.argv) == 0:
     start_cgi()
   elif sys.argv[1] == '-d':
-    start_server(sys.argv[2]
+    start_server(sys.argv[2])
