@@ -2,7 +2,7 @@
 from os import system
 from cgi import FieldStorage, escape
 from re import sub
-from time import localtime, strftime
+from time import localtime, mktime, strftime, strptime
 from subprocess import Popen, PIPE
 
 admin = True                    # do we auhorize admin stuff or not ?
@@ -26,10 +26,10 @@ def save_hosts(content):
   f.close()
 
 def gen_graph(host, step, begin):
-  # TODO: convert begin to a timestamp
+  begin = str(int(mktime(strptime(begin, "%m/%d/%Y %H:%M"))))
   pipe = Popen([generator, host, step, begin], stdout=PIPE, stderr=PIPE)
   output = pipe.communicate()
-  return output[1]
+  return (output[0] + output[1])
 
 ### pages
 def list_hosts(params):
@@ -40,7 +40,6 @@ def list_hosts(params):
   return html
 
 def show_host(params):
-  # TODO: change the step etc.
   host = params.getvalue('host')
   step = params.getvalue('step') or default_step
   begin = params.getvalue('begin') or default_begin
@@ -50,7 +49,6 @@ def show_host(params):
   if not host in get_hosts():
     return '<p>No such host</p>'
   
-  # TODO: get default values
   html += '<form method="post" action="' + path + '?host=' + host + '">'
   html += ('<label>Time scale: <select name="step">' +
            '<option value="3600">Last hour</option>' +
@@ -94,7 +92,7 @@ def statping(environ, start_response):
   body = ''
   if admin:
     body += '<a href="' + path + '?manage=t">manage</a> - '
-  body += '<a href="/">list</a><br/>'
+  body += '<a href="' + path + '">list</a><br/>'
   if 'host' in params:
     body += show_host(params)
   elif admin and 'manage' in params or 'new_hosts' in params:
