@@ -8,6 +8,9 @@ from subprocess import Popen, PIPE
 
 sys.path.append(os.path.dirname(__file__) + "/..")
 from lib.get_hosts import *
+from confs.config import *
+
+path = ''
 
 ### pages
 def list_hosts(params):
@@ -74,9 +77,11 @@ def start_cgi():
   WSGIServer(statping).run()
 
 if __name__ == "__main__":
-  if len(sys.argv) == 1:
+  argc = len(sys.argv)
+
+  if argc == 0 or argc == 1:
     start_cgi()
-  elif len(sys.argv) == 3 and sys.argv[1] == '-d':
+  elif argc == 3 and sys.argv[1] == '-d':
     start_server(sys.argv[2])
   else:
-    print "Error"
+    print 'Error'

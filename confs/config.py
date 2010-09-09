@@ -6,3 +6,5 @@
 
 data_dir = ""
 graph_dir = ""
+
+admin = True
