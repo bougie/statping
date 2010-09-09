@@ -6,6 +6,8 @@
 
 from time import localtime, strftime
 
+path = '' #base url
+
 data_dir = ""
 graph_dir = ""
 

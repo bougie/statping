@@ -10,8 +10,6 @@ sys.path.append(os.path.dirname(__file__) + "/..")
 from lib.get_hosts import *
 from confs.config import *
 
-path = ''
-
 #
 # list_hosts : return a html list wich contains hosts list
 #
