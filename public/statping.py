@@ -59,7 +59,7 @@ def gen_renderform(params):
            '</select></label><br/>')
   html += ('<label>begin (mm/dd/yyyy hh:ii) : <input type="text" name="begin"'
            'value="' + begin + '"/></label><br/>')
-  html += '<input type="submit" value="generate" />'
+  html += '<input type="submit" value="render" />'
   html += '</form>'
   html += '</div>'
 
@@ -69,13 +69,13 @@ def gen_renderform(params):
 # show_host : list graphs associated with an host
 #
 def show_host(params):
+  from lib.gen_graph import *
+
   html = '<div class="host_graphs">'
 
   host = params.getvalue('host')
   step = params.getvalue('step') or default_step
   begin = params.getvalue('begin') or default_begin
-  
-  html += '<h1>Statping for ' + host + '</h1>'
   
   if host != 'all' and not host in get_hosts():
     return '<p>No such host</p>'
@@ -84,14 +84,21 @@ def show_host(params):
     html += '<h1>Statping for all hosts</h1>'
   else: 
     html += '<h1>Statping for ' + host + '</h1>'
+
     errors = gen_graph(host, step, begin)
-    if errors != '':
-      html += '<p>Errors: <br/><pre>' + sub('\n', '<br/>', errors) + '</pre></p>'
+    #if errors != '':
+    #  html += '<p>Errors: <br/><pre>' + sub('\n', '<br/>', errors) + '</pre></p>'
     html += '<img src="' + img_path + host + '.png" alt="' + host + '"/>'
 
   html += '</div>'
 
   return html
+
+#
+#
+#
+def manage_hosts(params):
+  print 'TODO'
 
 ### app
 def statping(environ, start_response):
