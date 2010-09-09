@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 import sys
+import os
 from os import system
 from cgi import FieldStorage, escape
 from re import sub
 from subprocess import Popen, PIPE
 
-sys.path.append('..')
-from lib.get_hosts import get_hosts
+sys.path.append(os.path.dirname(__file__) + "/..")
+from lib.get_hosts import *
 
 ### pages
 def list_hosts(params):
@@ -73,7 +74,9 @@ def start_cgi():
   WSGIServer(statping).run()
 
 if __name__ == "__main__":
-  if len(sys.argv) == 0:
+  if len(sys.argv) == 1:
     start_cgi()
-  elif sys.argv[1] == '-d':
+  elif len(sys.argv) == 3 and sys.argv[1] == '-d':
     start_server(sys.argv[2])
+  else:
+    print "Error"
