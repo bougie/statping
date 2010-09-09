@@ -4,12 +4,15 @@
 # get_hosts. py : return a list with all hosts in it
 #
 
-def get_hosts():
-  ret = {}
+import os
+import re
 
-  f = open('../confs/hosts.cnf')
+def get_hosts():
+  ret = []
+
+  f = open(os.path.dirname(__file__) + '/../confs/hosts')
   for line in f:
-    ret.append(sub(r'([^\r\n]+)\r?\n', r'\1', line))
+    ret.append(re.sub(r'([^\r\n]+)\r?\n', r'\1', line))
   f.close()
 
   return ret
