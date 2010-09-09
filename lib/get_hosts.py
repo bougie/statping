@@ -10,7 +10,7 @@ import re
 def get_hosts():
   ret = []
 
-  f = open(os.path.dirname(__file__) + '/../confs/hosts')
+  f = open(os.path.dirname(__file__) + '/../confs/hosts', 'r')
   for line in f:
     ret.append(re.sub(r'([^\r\n]+)\r?\n', r'\1', line))
   f.close()
