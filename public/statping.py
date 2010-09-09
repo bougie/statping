@@ -5,6 +5,9 @@ from cgi import FieldStorage, escape
 from re import sub
 from subprocess import Popen, PIPE
 
+sys.path.append('..')
+from lib.get_hosts import get_hosts
+
 ### pages
 def list_hosts(params):
   html = '<h1>Hosts</h1><ul>'
