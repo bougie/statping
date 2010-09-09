@@ -4,10 +4,19 @@ body {
 }
 
 .menu {
+    float: left;
+    width: 150px;
 }
 
 .renderform {
+    margin-left: 160px;
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    padding-left: 10px;
 }
 
 .host_graphs {
+    margin-left: 160px;
+    border-left: 1px solid black;
+    padding-left: 10px;
 }

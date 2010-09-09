@@ -56,8 +56,8 @@ def gen_renderform(params):
            '<option value="604800">Last week</option>' +
            '<option value="18144000">Last month</option>' +
            '<option value="6622560000">Last year</option>' +
-           '</select></label><br/>')
-  html += ('<label>begin (mm/dd/yyyy hh:ii) : <input type="text" name="begin"'
+           '</select></label>&nbsp;')
+  html += ('<label>begin : <input type="text" name="begin"'
            'value="' + begin + '"/></label><br/>')
   html += '<input type="submit" value="render" />'
   html += '</form>'
@@ -106,7 +106,7 @@ def statping(environ, start_response):
   start_response('200 OK', [('Content-Type', 'text/html'),
                             ('charset', 'utf-8')])
   body = '<html>'
-  body += '<head><title>statping</title></head>'
+  body += '<head><title>statping</title><link href="style.css" rel="stylesheet" type="text/css" media="screen" /></head>'
   body += '<body>'
 
   body += gen_menu(params)
