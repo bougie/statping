@@ -10,7 +10,10 @@ def create_database(host):
   ret = rrdtool.create(os.path.dirname(__file__) + "/.." + data_dir + '/' + host + '.rrd',
                        '--step', step 
                        'DS:response-time:GAUGE:' + step + ':0:U',
-                       'RRA:AVERAGE:0.5:12:1440')
+                       'RRA:LAST:0.5:1:60',
+                       'RRA:LAST:0.5:1:1440',
+                       'RRA:AVERAGE:0.5:5:2000',
+                       'RRA:AVERAGE:0.5:60:720')
   if ret:
     raise IOError(rrdtool.error())
 
