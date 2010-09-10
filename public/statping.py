@@ -46,20 +46,23 @@ def gen_renderform(params):
   html = '<div class="renderform">'
 
   host = params.getvalue('host') or 'all'
-  step = params.getvalue('step') or default_step
-  begin = params.getvalue('begin') or default_begin
+  range = params.getvalue('range') or default_range
+  begin = params.getvalue('begin')
+  end = params.getvalue('end')
 
   html += '<form method="post" action="' + path + '?host=' + host + '">'
-  html += ('<label>Time scale: <select name="step">' +
-           '<option value="3600">Last hour</option>' +
-           '<option value="86400">Last day</option>' +
-           '<option value="604800">Last week</option>' +
-           '<option value="18144000">Last month</option>' +
-           '<option value="6622560000">Last year</option>' +
+  html += ('<label>Time scale: <select name="range">' +
+           '<option value="-1hour">Last hour</option>' +
+           '<option value="-1day">Last day</option>' +
+           '<option value="-1week">Last week</option>' +
+           '<option value="-1month">Last month</option>' +
+           '<option value="-1year">Last year</option>' +
            '</select></label>&nbsp;')
   html += ('<label>begin : <input type="text" name="begin"'
-           'value="' + begin + '"/></label><br/>')
-  html += '<input type="submit" value="render" />'
+           'value="' + begin + '"/></label>&nbsp;')
+  html += ('<label>end : <input type="text" name="end"'
+           'value="' + end + '"/></label>&nbsp;')
+  html += '<br /><input type="submit" value="render" />'
   html += '</form>'
   html += '</div>'
 
@@ -74,8 +77,9 @@ def show_host(params):
   html = '<div class="host_graphs">'
 
   host = params.getvalue('host')
-  step = params.getvalue('step') or default_step
-  begin = params.getvalue('begin') or default_begin
+  range = params.getvalue('range') or default_range
+  begin = params.getvalue('begin')
+  end = params.getvalue('end')
   
   if host != 'all' and not host in get_hosts():
     return '<p>No such host</p>'
@@ -85,7 +89,7 @@ def show_host(params):
   else: 
     html += '<h1>Statping for ' + host + '</h1>'
 
-    errors = gen_graph(host, step, begin)
+    errors = gen_graph(host, range, begin, end)
     #if errors != '':
     #  html += '<p>Errors: <br/><pre>' + sub('\n', '<br/>', errors) + '</pre></p>'
     html += '<img src="' + img_path + host + '.png" alt="' + host + '"/>'

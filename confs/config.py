@@ -8,10 +8,10 @@ from time import localtime, strftime
 
 path = '' #base url
 
-data_dir = ""
-graph_dir = ""
+data_dir = "" #relativ path from statping home
+graph_dir = "" #relativ path from statping home
+step = 60
 
 admin = True
 
-default_step = 86400
-default_begin = strftime("%m/%d/%Y %H:%M", localtime())
+default_range = "-1day" #Format rrdtool
