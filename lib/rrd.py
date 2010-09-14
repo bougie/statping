@@ -8,7 +8,10 @@ sys.path.append(os.path.dirname(__file__) + "/..")
 from confs.config import *
 
 def get_full_path(host):
-  return (os.path.dirname(__file__) + '/..' + data_dir + '/' + host + '.rrd')
+  return (os.path.dirname(__file__) + '/../' + data_dir + '/' + host + '.rrd')
+
+def get_full_graph_path(host):
+  return (os.path.dirname(__file__) + '/../' + graph_dir + '/' + host + '.png')
 
 def create_database(host):
   ret = rrdtool.create(get_full_path(host),
@@ -31,3 +34,19 @@ def add_value(host, value):
                        'N:' + value)
   if ret:
     raise IOError(rrdtool.error())
+
+def render(host, start, end):
+  graph_link = get_full_graph_path(host)
+
+  ret = rrdtool.graph(get_full_graph_path(host),
+                      '-a', 'PNG'
+                      '--start', str(start),
+                      '--end', str(end),
+                      '--vertical-label=ms',
+                      'DEF:probe1=' + get_full_path(host) + ':response-time:AVERAGE',
+                      'LINE1:probe1#000000: Response time')
+
+  if ret:
+    raise IOError(rrdtool.error())
+
+  return graph_link
