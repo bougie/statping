@@ -18,5 +18,13 @@ body {
 .host_graphs {
     margin-left: 160px;
     border-left: 1px solid black;
+    padding-top: 5px;
     padding-left: 10px;
+    text-align: center;
+}
+
+.host_graphs h1 {
+    margin: 0;
+    margin-bottom: 20px;
+    padding: 0;
 }
