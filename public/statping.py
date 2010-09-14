@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 import sys
 import os
-from os import system
 from cgi import FieldStorage, escape
 from re import sub
 from subprocess import Popen, PIPE
