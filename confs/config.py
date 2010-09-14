@@ -8,12 +8,16 @@ from time import localtime, strftime
 
 path = '' #base url
 
-data_dir = "" #relativ path from statping home
-graph_dir = "" #relativ path from statping home
+data_dir = "data" #relativ path from statping home
+graph_dir = "public/graphs" #relativ path from statping home
 step = 60
 
 admin = True
 
-default_range = "-1day" #Format rrdtool
+# Graph rendering
+default_start = "-1day" #Format rrdtool
+default_end = "N" #Format rrdtool
+default_width = '640'
+default_height = '200'
 
 fping_executable = 'fping' # full path to fping

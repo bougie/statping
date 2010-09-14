@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 import sys
 import os
 from cgi import FieldStorage, escape
@@ -7,6 +8,7 @@ from subprocess import Popen, PIPE
 
 sys.path.append(os.path.dirname(__file__) + "/..")
 from lib.get_hosts import *
+from lib.gen_graph import *
 from confs.config import *
 
 #
@@ -45,9 +47,9 @@ def gen_renderform(params):
   html = '<div class="renderform">'
 
   host = params.getvalue('host') or 'all'
-  range = params.getvalue('range') or default_range
-  begin = params.getvalue('begin')
-  end = params.getvalue('end')
+  range = params.getvalue('range') or ''
+  begin = params.getvalue('begin') or ''
+  end = params.getvalue('end') or ''
 
   html += '<form method="post" action="' + path + '?host=' + host + '">'
   html += ('<label>Time scale: <select name="range">' +
@@ -58,9 +60,9 @@ def gen_renderform(params):
            '<option value="-1year">Last year</option>' +
            '</select></label>&nbsp;')
   html += ('<label>begin : <input type="text" name="begin"'
-           'value="' + begin + '"/></label>&nbsp;')
+           ' value="' + begin + '"/></label>&nbsp;')
   html += ('<label>end : <input type="text" name="end"'
-           'value="' + end + '"/></label>&nbsp;')
+           ' value="' + end + '"/></label>&nbsp;')
   html += '<br /><input type="submit" value="render" />'
   html += '</form>'
   html += '</div>'
@@ -71,27 +73,30 @@ def gen_renderform(params):
 # show_host : list graphs associated with an host
 #
 def show_host(params):
-  from lib.gen_graph import *
-
   html = '<div class="host_graphs">'
 
   host = params.getvalue('host')
-  range = params.getvalue('range') or default_range
-  begin = params.getvalue('begin')
-  end = params.getvalue('end')
+  range = params.getvalue('range') or ''
+  begin = params.getvalue('begin') or ''
+  end = params.getvalue('end') or ''
   
   if host != 'all' and not host in get_hosts():
     return '<p>No such host</p>'
+
+  if range != '' and begin == '':
+    begin = range
  
   if host == 'all':
     html += '<h1>Statping for all hosts</h1>'
+
+    for host in get_hosts():
+      url = gen_graph(host, begin, end)
+      html += '<img src="' + url + ' alt="' + host + '"/><br />'
   else: 
     html += '<h1>Statping for ' + host + '</h1>'
 
-    errors = gen_graph(host, range, begin, end)
-    #if errors != '':
-    #  html += '<p>Errors: <br/><pre>' + sub('\n', '<br/>', errors) + '</pre></p>'
-    html += '<img src="' + img_path + host + '.png" alt="' + host + '"/>'
+    url = gen_graph(host, begin, end)
+    html += '<img src="' + url + ' alt="' + host + '"/>'
 
   html += '</div>'
 
