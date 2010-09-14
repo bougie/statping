@@ -1,16 +1,24 @@
 #!/usr/bin/env python
-
 import os
 import subprocess
 
-# TODO: import from config
-fping_executable = 'fping'
+import sys
+sys.path.append(os.path.dirname(__file__) + '/..')
+from lib.rrd import *
+from confs.config import *
+
 
 # parse the response from fping
 def parse_response(string):
   end_host = string.find(' ')
   start_delay = string.find(':')+2
-  return (string[0:end_host], float(string[start_delay:]))
+
+  host = string[0:end_host]
+  delay = string[start_delay:]
+  if delay == '-':
+    return (host, 'U')
+  else:
+    return (host, delay)
 
 # fping a list of hosts, returning a (host, delay) list
 def fping(hosts):
@@ -27,7 +35,5 @@ def collect(hosts):
     add_value(host, delay)
 
 if __name__ == "__main__":
-  import sys
-  sys.path.append(os.path.dirname(__file__) + '/../lib')
   from lib.get_hosts import get_hosts
   collect(get_hosts())

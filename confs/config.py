@@ -15,3 +15,5 @@ step = 60
 admin = True
 
 default_range = "-1day" #Format rrdtool
+
+fping_executable = 'fping' # full path to fping

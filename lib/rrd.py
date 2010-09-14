@@ -3,13 +3,14 @@
 import os.path
 import rrdtool
 
+import sys
 sys.path.append(os.path.dirname(__file__) + "/..")
 from confs.config import *
 
 def create_database(host):
   ret = rrdtool.create(os.path.dirname(__file__) + "/.." + data_dir + '/' + host + '.rrd',
-                       '--step', step 
-                       'DS:response-time:GAUGE:' + step + ':0:U',
+                       '--step', str(step),
+                       'DS:response-time:GAUGE:' + str(step) + ':0:U',
                        'RRA:LAST:0.5:1:60',
                        'RRA:LAST:0.5:1:1440',
                        'RRA:AVERAGE:0.5:5:2000',
