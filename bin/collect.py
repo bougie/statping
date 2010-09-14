@@ -25,7 +25,7 @@ def fping(hosts):
                           stdout=subprocess.PIPE,
                           stderr=subprocess.PIPE) # fping sumarry is on stderr
   delays = pipe.communicate()[1].splitlines()
-  return map(parse_response, delays)
+  return map(parse_fping_response, delays)
 
 # parse the response from ping
 def parse_ping_response(string):
