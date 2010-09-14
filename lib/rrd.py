@@ -22,12 +22,12 @@ def create_database(host):
     raise IOError(rrdtool.error())
 
 def ensure_database_exists(host):
-  if not os.path.isfile(get_full_path(host))
+  if not os.path.isfile(get_full_path(host)):
     create_database(host)
 
 def add_value(host, value):
   ensure_database_exists(host)
-  ret = rrdtool.update(get_full_path(host)
+  ret = rrdtool.update(get_full_path(host),
                        'N:' + value)
   if ret:
     raise IOError(rrdtool.error())

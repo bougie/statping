@@ -7,9 +7,8 @@ sys.path.append(os.path.dirname(__file__) + '/..')
 from lib.rrd import *
 from confs.config import *
 
-
 # parse the response from fping
-def parse_response(string):
+def parse_fping_response(string):
   end_host = string.find(' ')
   start_delay = string.find(':')+2
 
@@ -24,13 +23,33 @@ def parse_response(string):
 def fping(hosts):
   pipe = subprocess.Popen([fping_executable, '-C', '1', '-q'] + hosts, 
                           stdout=subprocess.PIPE,
-                          stderr=subprocess.PIPE)
+                          stderr=subprocess.PIPE) # fping sumarry is on stderr
   delays = pipe.communicate()[1].splitlines()
   return map(parse_response, delays)
 
+# parse the response from ping
+def parse_ping_response(string):
+  stats_start = string.find('=')
+  avg_start = string.find('/', stats_start)+1
+  avg_end = string.find('/', avg_start)
+  return string[avg_start:avg_end]
+
+# ping a list of hosts
+def ping(hosts):
+  for host in hosts:
+    pipe = subprocess.Popen([ping_executable, '-c', '1', host],
+                            stdout=subprocess.PIPE)
+    response = pipe.communicate()[0].splitlines()[-1] # last line
+    yield (host, parse_ping_response(response))
+
 # collect data
 def collect(hosts):
-  for (host, delay) in fping(hosts):
+  if ping_method == 'fping':
+    responses = fping(hosts)
+  else:
+    responses = ping(hosts)
+
+  for (host, delay) in responses:
     ensure_database_exists(host)
     add_value(host, delay)
 
