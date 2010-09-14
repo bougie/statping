@@ -89,14 +89,16 @@ def show_host(params):
   if host == 'all':
     html += '<h1>Statping for all hosts</h1>'
 
-    for host in get_hosts():
-      url = gen_graph(host, begin, end)
-      html += '<img src="' + url + ' alt="' + host + '"/><br />'
+    for rhost in get_hosts():
+      url = gen_graph(rhost, begin, end)
+
+      html += '<img src="' + url + '" alt="' + rhost + '"/><br />'
   else: 
     html += '<h1>Statping for ' + host + '</h1>'
 
     url = gen_graph(host, begin, end)
-    html += '<img src="' + url + ' alt="' + host + '"/>'
+
+    html += '<img src="' + url + '" alt="' + host + '"/>'
 
   html += '</div>'
 

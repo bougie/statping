@@ -13,6 +13,9 @@ def get_full_path(host):
 def get_full_graph_path(host):
   return (os.path.dirname(__file__) + '/../' + graph_dir + '/' + host + '.png')
 
+def get_view_graph_path(host):
+  return '../' + graph_dir + '/' + host + '.png'
+
 def create_database(host):
   ret = rrdtool.create(get_full_path(host),
                        '--step', str(step),
@@ -36,15 +39,13 @@ def add_value(host, value):
     raise IOError(rrdtool.error())
 
 def render(host, start, end):
-  graph_link = get_full_graph_path(host)
-
   if start == '':
     start = default_start
 
   if end == '':
     end = default_end
 
-  ret = rrdtool.graph(graph_link,
+  ret = rrdtool.graph(get_full_graph_path(host),
                       '--start', start,
                       '--end', end,
                       '--vertical-label', 'ms',
@@ -67,4 +68,4 @@ def render(host, start, end):
                       'COMMENT: \j',
                       'GPRINT:date:Last update \: %d/%m/%Y %H\:%M\j:strftime')
 
-  return graph_link
+  return get_view_graph_path(host)
