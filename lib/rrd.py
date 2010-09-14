@@ -7,8 +7,11 @@ import sys
 sys.path.append(os.path.dirname(__file__) + "/..")
 from confs.config import *
 
+def get_full_path(host):
+  return (os.path.dirname(__file__) + '/..' + data_dir + '/' + host + '.rrd')
+
 def create_database(host):
-  ret = rrdtool.create(os.path.dirname(__file__) + "/.." + data_dir + '/' + host + '.rrd',
+  ret = rrdtool.create(get_full_path(host),
                        '--step', str(step),
                        'DS:response-time:GAUGE:' + str(step) + ':0:U',
                        'RRA:LAST:0.5:1:60',
@@ -19,12 +22,12 @@ def create_database(host):
     raise IOError(rrdtool.error())
 
 def ensure_database_exists(host):
-  if not os.path.isfile(os.path.dirname(__file__) + "/.." + data_dir + '/' + host + '.rrd'):
+  if not os.path.isfile(get_full_path(host))
     create_database(host)
 
 def add_value(host, value):
   ensure_database_exists(host)
-  ret = rrdtool.update(os.path.dirname(__file__) + "/.." + data_dir + '/' + host + '.rrd',
+  ret = rrdtool.update(get_full_path(host)
                        'N:' + value)
   if ret:
     raise IOError(rrdtool.error())
