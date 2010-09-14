@@ -20,4 +20,7 @@ default_end = "N" #Format rrdtool
 default_width = '640'
 default_height = '200'
 
+ping_method = 'ping' # ping of fping
 fping_executable = 'fping' # full path to fping
+ping_executable = 'ping' # full path to ping
+
