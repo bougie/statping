@@ -46,25 +46,27 @@ def ping(hosts):
     yield (host, parse_ping_response(response))
 
 # collect data
-def collect(hosts):
+def collect(hosts, hdl):
   if ping_method == 'fping':
     responses = fping(hosts)
   else:
     responses = ping(hosts)
 
   for (host, delay) in responses:
-    ensure_database_exists(host)
     add_value(host, delay)
+    hdl.write("collecting host " + host + " : " + delay + "\n")
 
 if __name__ == "__main__":
   from lib.get_hosts import get_hosts
 
   hdl = open(os.path.dirname(__file__) + '/statping.log', 'a')
 
+  hdl.write(time.strftime("%d/%m/%Y %H:%M:%S : Collect started\n"))
+
   tstart = time.time()
-  collect(get_hosts())
+  collect(get_hosts(), hdl)
   tend = time.time() - tstart
 
-  hdl.write(time.strftime("%d/%m/%Y %H:%M:%S : Collect started and ran for " + str(tend) + "\n"))
+  hdl.write(time.strftime("%d/%m/%Y %H:%M:%S : Collect finished and ran for " + str(tend) + "\n"))
 
   hdl.close()

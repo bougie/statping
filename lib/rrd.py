@@ -18,9 +18,9 @@ def get_view_graph_path(host):
 
 def create_database(host):
   ret = rrdtool.create(get_full_path(host),
+                       '--start', 'N',
                        '--step', str(step),
                        'DS:response-time:GAUGE:' + str(step) + ':0:U',
-                       'RRA:LAST:0.5:1:60',
                        'RRA:LAST:0.5:1:1440',
                        'RRA:AVERAGE:0.5:5:2000',
                        'RRA:AVERAGE:0.5:60:720')
@@ -35,6 +35,7 @@ def add_value(host, value):
   ensure_database_exists(host)
   ret = rrdtool.update(get_full_path(host),
                        'N:' + value)
+
   if ret:
     raise IOError(rrdtool.error())
 
