@@ -20,6 +20,7 @@ default_end = "N" #Format rrdtool
 default_width = '640'
 default_height = '200'
 
+packets = 3 # number of packets to send
 ping_method = 'fping' # ping of fping
 fping_executable = 'fping' # full path to fping
 ping_executable = 'ping' # full path to ping
