@@ -7,6 +7,7 @@ import sys
 sys.path.append(os.path.dirname(__file__) + '/..')
 from lib.rrd import *
 from confs.config import *
+from lib.log import *
 
 # parse the response from fping
 def parse_fping_response(string):
@@ -15,6 +16,7 @@ def parse_fping_response(string):
   host = string[0:end_host]
   
   if string.find('avg') == -1:
+    log('fping: no answer, fping output was' + string, 2)
     return (host, 'U')
   
   stats_start = string.find('max')+5
@@ -32,6 +34,10 @@ def fping(hosts):
 
 # parse the response from ping
 def parse_ping_response(string):
+  if string.find('avg') == -1:
+    log('ping: no answer, ping output was' + string, 2)
+    return 'U'
+
   stats_start = string.find('=')
   avg_start = string.find('/', stats_start)+1
   avg_end = string.find('/', avg_start)
@@ -46,7 +52,7 @@ def ping(hosts):
     yield (host, parse_ping_response(response))
 
 # collect data
-def collect(hosts, hdl):
+def collect(hosts):
   if ping_method == 'fping':
     responses = fping(hosts)
   else:
@@ -54,19 +60,15 @@ def collect(hosts, hdl):
 
   for (host, delay) in responses:
     add_value(host, delay)
-    hdl.write("collecting host " + host + " : " + delay + "\n")
+    log('collecting host' + host + ': delay ' + delay, 1)
 
 if __name__ == "__main__":
   from lib.get_hosts import get_hosts
 
-  hdl = open(os.path.dirname(__file__) + '/statping.log', 'a')
-
-  hdl.write(time.strftime("%d/%m/%Y %H:%M:%S : Collect started\n"))
+  log('Collect started', 1)
 
   tstart = time.time()
-  collect(get_hosts(), hdl)
+  collect(get_hosts())
   tend = time.time() - tstart
 
-  hdl.write(time.strftime("%d/%m/%Y %H:%M:%S : Collect finished and ran for " + str(tend) + "\n"))
-
-  hdl.close()
+  log('Collect finished and ran for ' + str(tend), 1)
