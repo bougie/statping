@@ -13,6 +13,8 @@ graph_dir = "public/graphs" #relativ path from statping home
 step = 60
 
 admin = True
+log_level = 1
+log_file = 'statping.log'
 
 # Graph rendering
 default_start = "-1day" #Format rrdtool
