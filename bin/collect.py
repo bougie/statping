@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import os
 import subprocess
+import time
 
 import sys
 sys.path.append(os.path.dirname(__file__) + '/..')
@@ -55,4 +56,13 @@ def collect(hosts):
 
 if __name__ == "__main__":
   from lib.get_hosts import get_hosts
+
+  hdl = open('statping.log', 'a')
+
+  tstart = time.time()
   collect(get_hosts())
+  tend = time.time() - tstart
+
+  hdl.write(time.strftime("%d/%m/%Y %H:%M:%S : Collect started and ran for " + str(tend) + "\n"))
+
+  hdl.close()
