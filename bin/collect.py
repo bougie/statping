@@ -57,7 +57,7 @@ def collect(hosts):
 if __name__ == "__main__":
   from lib.get_hosts import get_hosts
 
-  hdl = open('statping.log', 'a')
+  hdl = open(os.path.dirname(__file__) + '/statping.log', 'a')
 
   tstart = time.time()
   collect(get_hosts())
