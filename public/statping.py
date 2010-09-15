@@ -19,9 +19,6 @@ def list_hosts(params):
   urlhost = params.getvalue('host')
 
   for host in get_hosts():
-    if host == urlhost:
-      html += '<li>' + host + '</li>'
-    else:
       html += '<li><a href="' + path + '?host=' + host + '">' + host + '</a></li>'
 
   html += '</ul>'
