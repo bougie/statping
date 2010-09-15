@@ -2,6 +2,7 @@
 
 import sys
 import os
+import time
 from cgi import FieldStorage, escape
 from re import sub
 from subprocess import Popen, PIPE
@@ -79,9 +80,17 @@ def show_host(params):
   
   if host != 'all' and not host in get_hosts():
     return '<p>No such host</p>'
-
-  if range != '' and begin == '':
+  
+  if range != '' and begin = '':
     begin = range
+    range = ''
+  elif begin != '':
+    _begin = time.strptime(begin, '%Y/%m/%d')
+    begin = _begin[0] + _begin[1] + _begin[2]
+
+  if begin != '' and end != '' and range = '':
+    _end = time.strptime(end, '%Y/%m/%d')
+    end = _end[0] + _end[1] + _end[2]
  
   if host == 'all':
     html += '<h1>Statping for all hosts</h1>'
