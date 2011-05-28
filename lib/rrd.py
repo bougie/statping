@@ -14,7 +14,7 @@ def get_full_graph_path(host):
   return (os.path.dirname(__file__) + '/../' + graph_dir + '/' + host + '.png')
 
 def get_view_graph_path(host):
-  return '../' + graph_dir + '/' + host + '.png'
+  return graph_viewdir + '/' + host + '.png'
 
 def create_database(host):
   ret = rrdtool.create(get_full_path(host),

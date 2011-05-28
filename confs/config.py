@@ -10,6 +10,7 @@ path = '' #base url
 
 data_dir = "data" #relativ path from statping home
 graph_dir = "public/graphs" #relativ path from statping home
+graph_viewdir = "graphs" #relativ path from public dir
 step = 60
 
 admin = True
