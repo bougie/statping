@@ -1,2 +1,2 @@
-# aptitude install python-rrdtool fping
+# aptitude install python-rrdtool fping python-flup
 # mkdir data
