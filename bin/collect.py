@@ -60,7 +60,7 @@ def collect(hosts):
 
   for (host, delay) in responses:
     add_value(host, delay)
-    log('collecting host' + host + ': delay ' + delay, 1)
+    log('collecting host ' + host + ': delay ' + delay, 1)
 
 if __name__ == "__main__":
   from lib.get_hosts import get_hosts
